@@ -1,0 +1,13 @@
+Product_ID,Category,Material,Colour,Price_EUR,Sustainability
+S01,Sweater,Polyester,Black,39.99,3
+S02,Sweater,Cotton,Grey,34.99,2
+S03,Sweater,Organic Cotton,Green,44.99,5
+C01,Coat,Nylon,Black,89.99,4
+C02,Coat,Cotton,Beige,99.99,3
+C03,Coat,Recycled Wool,Brown,79.99,5
+B01,Beanie,Polyester,Black,14.99,2
+B02,Beanie,Cotton,Grey,19.99,3
+B03,Beanie,Recycled Acrylic,Beige,16.99,4
+BT01,Boots,Synthetic,Black,79.99,2
+BT02,Boots,Leather,Brown,89.99,4
+BT03,Boots,Recycled Materials,Black,74.99,5
