@@ -8,7 +8,7 @@ from supabase import create_client
 def connect_to_supabase():
     return create_client(
         st.secrets["SUPABASE_URL"],
-        st.secrets["SUPABASE_SECRET_KEY"]
+        st.secrets["SUPABASE_KEY"]
     )
 
 try:
@@ -181,7 +181,7 @@ else:
     )
 
     st.write(
-        "1 = Influenced me the least | 4 = Influenced me the most. "
+        "1 = Influenced me the most | 4 = Influenced me the least. "
         "Use each number only once."
     )
 
