@@ -2,22 +2,23 @@
 import streamlit as st
 import pandas as pd
 import uuid
-from supabase import create_client
+from supabase import create_client, Client
+from dotenv import load_dotenv
+import os
 
-@st.cache_resource
-def connect_to_supabase():
-    return create_client(
-        st.secrets["SUPABASE_URL"],
-        st.secrets["SUPABASE_KEY"]
-    )
+load_dotenv()
 
-try:
-    supabase = connect_to_supabase()
-except Exception:
-    st.error(
-        "Database connection failed."
-    )
+
+load_dotenv()
+
+url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_KEY")
+
+if not url or not supabase_key:
+    st.error("SUPABASE_URL oder SUPABASE_KEY fehlt in der .env-Datei.")
     st.stop()
+
+supabase: Client = create_client(url, supabase_key)
 
 defaults = {
     "sustainability_interest": None,
@@ -27,11 +28,11 @@ defaults = {
     "selected_products": {},
     "participant_id": str(uuid.uuid4()),
     "response_saved": False,
-}
+} 
 
-for key, value in defaults.items():
-    if key not in st.session_state:
-        st.session_state[key] = value
+for state_key, value in defaults.items():
+    if state_key not in st.session_state:
+        st.session_state[state_key] = value
 
 if not st.session_state.questionnaire_completed:
 
@@ -221,6 +222,7 @@ else:
 
         else:
 
+            
             response = {
                 "participant_id": st.session_state.participant_id,
 
@@ -238,10 +240,14 @@ else:
                     st.session_state.sustainability_interest
             }
 
-            supabase.table("study_responses").insert(
-                response
-            ).execute()
+            try:
+                result = (
+                    supabase.table("study_responses")
+                    .insert(response, returning="minimal")
+                    .execute()
+                )
 
-            st.session_state.response_saved = True
-            st.success("Thank you for your participation!")
-
+                st.session_state.response_saved = True
+                st.success("Thank you for your participation!")
+            except Exception as e:
+                st.error(f"Error saving response: {e}")
