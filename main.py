@@ -8,9 +8,6 @@ import os
 
 load_dotenv()
 
-
-load_dotenv()
-
 url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_KEY")
 
