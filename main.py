@@ -33,7 +33,7 @@ for state_key, value in defaults.items():
 
 if not st.session_state.questionnaire_completed:
 
-    st.title("Winter Fashion Shop")
+    st.title("Online Fashion Shop")
 
     st.write("Before you start, please answer one short question.")
 
@@ -68,8 +68,8 @@ if not st.session_state.show_questionnaire:
 
     df = pd.read_csv("Winter_Fashion_Dataset.csv")
 
-    st.title("Winter Fashion Shop")
-    st.write("Choose your products and create your winter outfit!")
+    st.title("Online Fashion Shop")
+    st.write("Choose your products!")
 
     st.info(
         "**Sustainability Score:** The score ranges from 1 to 5. "
