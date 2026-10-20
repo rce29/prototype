@@ -67,6 +67,7 @@ if not st.session_state.questionnaire_completed:
 if not st.session_state.show_questionnaire:
 
     df = pd.read_csv("Winter_Fashion_Dataset.csv")
+    images = "images"
 
     st.title("Online Fashion Shop")
     st.write("Choose your products!")
@@ -107,7 +108,18 @@ if not st.session_state.show_questionnaire:
 
         product_id = str(row["Product_ID"])
 
+
         with columns[i % 3]:
+
+            image_path = os.path.join(images, f"{product_id}.png")
+
+            if os.path.exists(image_path):
+                st.image(
+                    image_path,
+                    use_container_width=True
+                )
+            else:
+                st.warning(f"Image not found: {image_path}")
 
             if nudging_technique == "Labels" and row["Sustainability"] == 5:
                 st.subheader(str(row["Colour"]) + " 🌱")
@@ -179,7 +191,7 @@ else:
     )
 
     st.write(
-        "1 = Influenced me the most | 4 = Influenced me the least. "
+        "1 = Influenced me the most | 5 = Influenced me the least. "
         "Use each number only once."
     )
 
@@ -187,7 +199,8 @@ else:
         "Material",
         "Colour",
         "Sustainability Score",
-        "Price"
+        "Price",
+        "Image"
     ]
 
     rankings = {}
@@ -195,7 +208,7 @@ else:
     for factor in factors:
         rankings[factor] = st.selectbox(
             factor,
-            options=[1, 2, 3, 4],
+            options=[1, 2, 3, 4, 5],
             index=None,
             key=f"ranking_{factor}"
         )
@@ -208,7 +221,7 @@ else:
         if any(value is None for value in rankings.values()):
             st.warning("Please rank all four factors.")
 
-        elif len(set(rankings.values())) != 4:
+        elif len(set(rankings.values())) != 5:
             st.warning("Please use each rank only once.")
 
         elif any(
@@ -232,6 +245,7 @@ else:
                 "colour_rank": rankings["Colour"],
                 "sustainability_rank": rankings["Sustainability Score"],
                 "price_rank": rankings["Price"],
+                "image_rank": rankings["Image"],
 
                 "sustainability_interest":
                     st.session_state.sustainability_interest
