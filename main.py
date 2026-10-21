@@ -28,6 +28,7 @@ defaults = {
     "assigned_condition": None,
     "step": 0,
     "selected_products": {},
+    "product_orders": {},
     "participant_id": str(uuid.uuid4()),
     "response_saved": False,
 }
@@ -267,6 +268,7 @@ elif st.session_state.page == "shop":
 
     highlight_product_id = str(highest_product["Product_ID"])
 
+
     if technique == "Prioritization":
         result = result.sort_values(
             by=["Sustainability", "Product_ID"],
@@ -274,8 +276,17 @@ elif st.session_state.page == "shop":
             kind="stable",
         )
     else:
-        result = result.sample(frac=1).reset_index(drop=True)
+        if product not in st.session_state.product_orders:
+            shuffled_ids = result["Product_ID"].sample(
+                frac=1
+            ).tolist()
+            st.session_state.product_orders[product] = shuffled_ids
 
+        result = (
+            result.set_index("Product_ID")
+            .loc[st.session_state.product_orders[product]]
+            .reset_index()
+        )
 
     previous_selection = (
         st.session_state.selected_products.get(product)
