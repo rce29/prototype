@@ -304,21 +304,17 @@ elif st.session_state.page == "shop":
                     f"Image not found: {image_path}"
                 )
 
-            st.subheader(str(row["Colour"]))
-
             if (
                 technique == "Labels"
                 and product_id == highlight_product_id
             ):
-                st.success("Higher sustainability score")
+                st.subheader(str(row["Colour"]) + " 🌱")
+            else:
+                st.subheader(str(row["Colour"]))
 
-            st.write(
-                f"**Price:** €{row['Price_EUR']:.2f}"
-            )
+            st.write(f"**Price:** €{row['Price_EUR']}")
 
-            st.write(
-                f"**Material:** {row['Material']}"
-            )
+            st.write(f"**Material:** {row['Material']}")
 
             st.write(
                 f"**Sustainability Score:** "
@@ -418,13 +414,28 @@ elif st.session_state.page == "shop":
                     }
 
                     try:
-                        supabase.table("study_responses").insert(
-                            response,
-                            returning="minimal",
-                        ).execute()
+                        existing_response = (
+                            supabase.table("study_responses")
+                            .select("participant_id")
+                            .eq(
+                                "participant_id",
+                                st.session_state.participant_id,
+                            )
+                            .execute()
+                        )
 
-                        st.session_state.response_saved = True
-                        go_to("completion")
+                        if existing_response.data:
+                            st.error(
+                                "A response for this participant has already been saved."
+                            )
+                        else:
+                            supabase.table("study_responses").insert(
+                                response,
+                                returning="minimal",
+                            ).execute()
+
+                            st.session_state.response_saved = True
+                            go_to("completion")
 
                     except Exception as e:
                         st.error(
