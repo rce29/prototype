@@ -60,23 +60,18 @@ if st.session_state.page == "welcome":
     st.title("Welcome to the Online Fashion Shop Study")
 
     st.write(
-        "Thank you for considering taking part in this study. "
-        "You will browse a simulated online fashion shop and select one "
-        "product from each category. At the end, you will answer a few "
-        "short questions about your choices."
+        "Thank you for considering taking part in this study. The study will take approximately 5–10 minutes to complete. "
+        "You will browse a simulated online fashion shop and select one product from each category."
     )
 
     st.write(
         "The study explores how different nudging techniques in an online fashion shop can "
-        "encourage sustainable shopping choices. There are no right or wrong answers; "
-        "please make your choices according to your own preferences."
+        "encourage sustainable shopping choices. There are no right or wrong answers; please make your choices according to your own preferences."
     )
 
     st.info(
-        "The shop is a research prototype. Product information, prices, "
-        "materials and sustainability scores are simulated and may not "
-        "correspond to real products. Sustainability scores are not verified "
-        "environmental assessments."
+        "The shop is a research prototype. Product information, prices, materials and sustainability scores are simulated and do not "
+        "correspond to real products. Sustainability scores are not verified environmental assessments."
     )
 
     if st.button("Continue", type="primary"):
