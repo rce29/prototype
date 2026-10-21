@@ -273,6 +273,9 @@ elif st.session_state.page == "shop":
             ascending=[False, True],
             kind="stable",
         )
+    else:
+        result = result.sample(frac=1).reset_index(drop=True)
+
 
     previous_selection = (
         st.session_state.selected_products.get(product)
