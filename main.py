@@ -452,7 +452,6 @@ elif st.session_state.page == "completion":
 
     st.write(
         "Thank you for taking the time to participate in this study. "
-        "Your responses are valuable for this research."
     )
 
     st.write(
