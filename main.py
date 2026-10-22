@@ -322,37 +322,39 @@ elif st.session_state.page == "shop":
             st.write(f"**Price:** €{row['Price_EUR']}")
 
             st.write(f"**Material:** {row['Material']}")
+            st.write(
+                    f"**Sustainability Score:** "
+                    f"{row['Sustainability']}/5 "
+                )
             if (
                 technique == "Labels"
                 and product_id == highlight_product_id
             ):
+                
                 st.markdown(
                     f"""
-                    <div style="display: flex; align-items: center;
-                                gap: 10px; flex-wrap: wrap;">
-                        <span style="font-weight: 600;">
-                            Sustainability Score:
-                            {row['Sustainability']}/5
-                        </span>
+                    <div style="
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        flex-wrap: wrap;
+                        margin-bottom: 12px;
+                    ">
                         <span style="
                             background-color: #e5f4e8;
                             color: #216e39;
                             padding: 4px 9px;
                             border-radius: 6px;
                             font-size: 0.85rem;
-                            font-weight: 600;">
+                            font-weight: 600;
+                        ">
                             🌱 High Sustainability Score
                         </span>
                     </div>
                     """,
                     unsafe_allow_html=True,
                 )
-            else:
-                st.write(
-                    f"**Sustainability Score:** "
-                    f"{row['Sustainability']}/5 "
-                )
-            
+
             if (
                 technique == "Framing"
                 and product_id == highlight_product_id
