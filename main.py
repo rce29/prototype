@@ -211,10 +211,9 @@ elif st.session_state.page == "shop":
     )
 
     products = [
-        "Sweater",
-        "Coat",
+        "Scarf",
+        "Gloves",
         "Beanie",
-        "Boots",
     ]
 
     try:
@@ -295,12 +294,23 @@ elif st.session_state.page == "shop":
     columns = st.columns(3)
 
     for i, (_, row) in enumerate(result.iterrows()):
+
         product_id = str(row["Product_ID"])
+        is_highlighted = product_id == highlight_product_id
+
+        if (
+            technique == "Labels"
+            and is_highlighted
+        ):
+            image_product_id = f"{product_id}_S"
+        else:
+            image_product_id = product_id
+
 
         with columns[i % 3]:
             image_path = os.path.join(
                 image_folder,
-                f"{product_id}.png",
+                f"{image_product_id}.png",
             )
 
             if os.path.exists(image_path):
@@ -312,12 +322,8 @@ elif st.session_state.page == "shop":
                 st.caption(
                     f"Image not found: {image_path}"
                 )
-
-            if (
-                technique == "Labels"
-                and product_id == highlight_product_id
-            ):
-                st.subheader(str(row["Colour"]))
+                
+            st.write(f"**Colour:** {row['Colour']}")
 
             st.write(f"**Price:** €{row['Price_EUR']}")
 
@@ -326,35 +332,6 @@ elif st.session_state.page == "shop":
                     f"**Sustainability Score:** "
                     f"{row['Sustainability']}/5 "
                 )
-            if (
-                technique == "Labels"
-                and product_id == highlight_product_id
-            ):
-                
-                st.markdown(
-                    f"""
-                    <div style="
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        flex-wrap: wrap;
-                        margin-bottom: 12px;
-                    ">
-                        <span style="
-                            background-color: #e5f4e8;
-                            color: #216e39;
-                            padding: 4px 9px;
-                            border-radius: 6px;
-                            font-size: 0.85rem;
-                            font-weight: 600;
-                        ">
-                            🌱 High Sustainability Score
-                        </span>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-
             if (
                 technique == "Framing"
                 and product_id == highlight_product_id
@@ -439,10 +416,9 @@ elif st.session_state.page == "shop":
                         ),
                         "age": st.session_state.age,
                         "gender": st.session_state.gender,
-                        "sweater_id": selected["Sweater"],
-                        "coat_id": selected["Coat"],
+                        "scarf_id": selected["Scarf"],
+                        "gloves_id": selected["Gloves"],
                         "beanie_id": selected["Beanie"],
-                        "boot_id": selected["Boots"],
                         "sustainability_interest": (
                             st.session_state.sustainability_interest
                         ),
