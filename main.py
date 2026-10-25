@@ -275,16 +275,9 @@ elif st.session_state.page == "shop":
             kind="stable",
         )
     else:
-        if product not in st.session_state.product_orders:
-            shuffled_ids = result["Product_ID"].sample(
-                frac=1
-            ).tolist()
-            st.session_state.product_orders[product] = shuffled_ids
-
-        result = (
-            result.set_index("Product_ID")
-            .loc[st.session_state.product_orders[product]]
-            .reset_index()
+        result = result.sort_values(
+            by="Product_ID",
+            ascending=True,
         )
 
     previous_selection = (
