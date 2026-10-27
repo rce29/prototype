@@ -26,7 +26,7 @@ def load_products():
 @st.cache_data
 def load_image(image_path):
     with Image.open(image_path) as image:
-        return image.convert("RGBA")
+        return image.convert("RGB")
     
 defaults = {
     "page": "welcome",
@@ -306,7 +306,7 @@ elif st.session_state.page == "shop":
 
         image_path = os.path.join(
             image_folder,
-            f"{product_id}.png",
+            f"{product_id}.jpeg",
         )
 
         if os.path.exists(image_path):
@@ -315,7 +315,7 @@ elif st.session_state.page == "shop":
             if technique == "Labels" and is_highlighted:
                 label_path = os.path.join(
                     image_folder,
-                    f"{product_id}_S.png",
+                    f"{product_id}_S.jpeg",
                 )
 
                 if os.path.exists(label_path):
