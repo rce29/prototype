@@ -6,6 +6,7 @@ import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 from supabase import create_client, Client
+from PIL import Image
 
 load_dotenv()
 
@@ -17,7 +18,6 @@ if not url or not supabase_key:
     st.stop()
 
 supabase: Client = create_client(url, supabase_key)
-
 
 defaults = {
     "page": "welcome",
@@ -198,6 +198,11 @@ elif st.session_state.page == "interest":
 
 
 elif st.session_state.page == "shop":
+
+    with st.sidebar:
+        if st.button("Image Credits", use_container_width=True):
+            go_to("image_credits")
+
     df = pd.read_csv("Winter_Fashion_Dataset.csv")
     image_folder = "images"
 
@@ -239,6 +244,7 @@ elif st.session_state.page == "shop":
         )
         st.stop()
 
+    st.session_state.scroll_to_top = True
     st.progress(
         (st.session_state.step + 1) / len(products)
     )
@@ -267,7 +273,6 @@ elif st.session_state.page == "shop":
 
     highlight_product_id = str(highest_product["Product_ID"])
 
-
     if technique == "Prioritization":
         result = result.sort_values(
             by=["Sustainability", "Product_ID"],
@@ -284,69 +289,70 @@ elif st.session_state.page == "shop":
         st.session_state.selected_products.get(product)
     )
 
-    columns = st.columns(3)
-
+    # Products are displayed vertically
     for i, (_, row) in enumerate(result.iterrows()):
 
         product_id = str(row["Product_ID"])
         is_highlighted = product_id == highlight_product_id
 
-        if (
-            technique == "Labels"
-            and is_highlighted
-        ):
-            image_product_id = f"{product_id}_S"
+        image_path = os.path.join(
+            image_folder,
+            f"{product_id}.png",
+        )
+
+        if os.path.exists(image_path):
+            product_image = Image.open(image_path).convert("RGBA")
+
+            if technique == "Labels" and is_highlighted:
+                label_path = os.path.join(
+                    image_folder,
+                    f"{product_id}_S.png",
+                )
+
+                if os.path.exists(label_path):
+                    st.image(
+                        label_path,
+                        width=350,
+                    )
+                else:
+                    st.caption(f"Visual label not found: {label_path}")
+            else:
+                st.image(
+                    product_image,
+                    width=350,
+                )
         else:
-            image_product_id = product_id
-
-
-        with columns[i % 3]:
-            image_path = os.path.join(
-                image_folder,
-                f"{image_product_id}.png",
+            st.caption(
+                f"Image not found: {image_path}"
             )
 
-            if os.path.exists(image_path):
-                st.image(
-                    image_path,
-                    use_container_width=True,
-                )
-            else:
-                st.caption(
-                    f"Image not found: {image_path}"
-                )
-                
-            st.write(f"**Colour:** {row['Colour']}")
+        st.write(f"**Colour:** {row['Colour']}")
+        st.write(f"**Price:** €{row['Price_EUR']}")
+        st.write(f"**Material:** {row['Material']}")
+        st.write(
+            f"**Sustainability Score:** "
+            f"{row['Sustainability']}/5"
+        )
 
-            st.write(f"**Price:** €{row['Price_EUR']}")
+        if (
+            technique == "Framing"
+            and product_id == highlight_product_id
+        ):
+            st.info(
+                "**Positive impact:** Choosing this product "
+                "is a positive step towards more sustainable fashion."
+            )
 
-            st.write(f"**Material:** {row['Material']}")
-            st.write(
-                    f"**Sustainability Score:** "
-                    f"{row['Sustainability']}/5 "
-                )
-            if (
-                technique == "Framing"
-                and product_id == highlight_product_id
-            ):
-                st.info(
-                    "**Positive impact:** Choosing this product"
-                    "is a positive step towards more sustainable fashion."
-                )
+        if previous_selection == product_id:
+            st.success("Selected")
 
-            if previous_selection == product_id:
-                st.success("Selected")
-
-            if st.button(
-                "Select",
-                key=f"select_{product}_{product_id}",
-                use_container_width=True,
-            ):
-                st.session_state.selected_products[
-                    product
-                ] = product_id
-
-                st.rerun()
+        if st.button(
+            "Select",
+            key=f"select_{product}_{product_id}",
+            use_container_width=True,
+        ):
+            st.session_state.selected_products[product] = product_id
+            st.rerun()
 
     st.divider()
 
@@ -444,6 +450,19 @@ elif st.session_state.page == "shop":
                         st.error(
                             f"Error saving response: {e}"
                         )
+
+
+elif st.session_state.page == "image_credits":
+    st.title("Image Credits")
+
+    st.write(
+        "The product images used in this research prototype "
+        "were sourced from Adobe Stock and licensed under "
+        "the Adobe Stock Standard License."
+    )
+
+    if st.button("Back to Shop"):
+        go_to("shop")
 
 
 elif st.session_state.page == "completion":
