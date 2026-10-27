@@ -330,9 +330,8 @@ elif st.session_state.page == "shop":
                 and product_id == highlight_product_id
             ):
                 st.info(
-                    "**Positive impact:** This product has a relatively "
-                    "high sustainability score, making it a "
-                    "more environmentally friendly choice."
+                    "**Positive impact:** Choosing this product"
+                    "is a positive step towards more sustainable fashion."
                 )
 
             if previous_selection == product_id:
