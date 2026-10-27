@@ -19,6 +19,15 @@ if not url or not supabase_key:
 
 supabase: Client = create_client(url, supabase_key)
 
+@st.cache_data
+def load_products():
+    return pd.read_csv("Winter_Fashion_Dataset.csv")
+
+@st.cache_data
+def load_image(image_path):
+    with Image.open(image_path) as image:
+        return image.convert("RGBA")
+    
 defaults = {
     "page": "welcome",
     "consent_given": False,
@@ -203,7 +212,7 @@ elif st.session_state.page == "shop":
         if st.button("Image Credits", use_container_width=True):
             go_to("image_credits")
 
-    df = pd.read_csv("Winter_Fashion_Dataset.csv")
+    df = load_products()
     image_folder = "images"
 
     st.title("Online Fashion Shop")
@@ -301,8 +310,8 @@ elif st.session_state.page == "shop":
         )
 
         if os.path.exists(image_path):
-            product_image = Image.open(image_path).convert("RGBA")
-
+            product_image = load_image(image_path)
+            
             if technique == "Labels" and is_highlighted:
                 label_path = os.path.join(
                     image_folder,
