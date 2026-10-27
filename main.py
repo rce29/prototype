@@ -208,9 +208,9 @@ elif st.session_state.page == "interest":
 
 elif st.session_state.page == "shop":
 
-    #with st.sidebar:
-        #if st.button("Image Credits", use_container_width=True):
-         #   go_to("image_credits")
+    with st.sidebar:
+        if st.button("Image Credits", use_container_width=True):
+           go_to("image_credits")
 
     df = load_products()
     image_folder = "images"
@@ -461,17 +461,17 @@ elif st.session_state.page == "shop":
                         )
 
 
-#elif st.session_state.page == "image_credits":
-    #st.title("Image Credits")
+elif st.session_state.page == "image_credits":
+    st.title("Image Credits")
 
-    #st.write(
-    #    "The product images used in this research prototype "
-    #    "were sourced from Adobe Stock and licensed under "
-    #    "the Adobe Stock Standard License."
-    #)
+    st.write(
+        "The product images used in this research prototype "
+        "were sourced from Adobe Stock and licensed under "
+        "the Adobe Stock Standard License."
+    )
 
-    #if st.button("Back to Shop"):
-    #    go_to("shop")
+    if st.button("Back to Shop"):
+        go_to("shop")
 
 
 elif st.session_state.page == "completion":
