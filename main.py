@@ -470,6 +470,16 @@ elif st.session_state.page == "image_credits":
         "the Adobe Stock Standard License."
     )
 
+    st.write("Dark Grey Scarf: Image by Neo / #2149782903")
+    st.write("Grey Scarf: Image by PNG Studio 99 / #2214430897")
+    st.write("White Scarf: Image by  volodyar / #137126673")
+    st.write("Grey Gloves: Image by Pixel-Shot / #474453749")
+    st.write("Beige Gloves: Image by Olzhas / #1752471673")
+    st.write("Black Gloves: Image by New Africa / #393876863")
+    st.write("Beige Beanie: Image by ange1011 / #558118657")
+    st.write("Grey Beanie: Image by Rawpixel.com / #929135580")
+    st.write("Dark Grey Beanie: Image by Touchr / #303141709")
+
     if st.button("Back to Shop"):
         go_to("shop")
 
