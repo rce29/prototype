@@ -1,7 +1,7 @@
 Product_ID,Category,Material,Colour,Price_EUR,Sustainability
 S01,Scarf,Polyester,Dark Grey,22.99,3
 S02,Scarf,Cotton,Grey,24.99,2.5
-S03,Scarf,Organic Cotton,White,29.99.99,4
+S03,Scarf,Organic Cotton,White,29.99,4
 G01,Gloves,Polyester,Grey,14.99,3
 G02,Gloves,Recycled Wool,Beige,29.99,4.5
 G03,Gloves,Polyacryl,Black,24.99,2

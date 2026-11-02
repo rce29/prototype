@@ -298,7 +298,6 @@ elif st.session_state.page == "shop":
         st.session_state.selected_products.get(product)
     )
 
-    # Products are displayed vertically
     for i, (_, row) in enumerate(result.iterrows()):
 
         product_id = str(row["Product_ID"])
@@ -470,16 +469,22 @@ elif st.session_state.page == "image_credits":
         "the Adobe Stock Standard License."
     )
 
-    st.write("Dark Grey Scarf: Image by Neo / #2149782903")
-    st.write("Grey Scarf: Image by PNG Studio 99 / #2214430897")
-    st.write("White Scarf: Image by  volodyar / #137126673")
-    st.write("Grey Gloves: Image by Pixel-Shot / #474453749")
-    st.write("Beige Gloves: Image by Olzhas / #1752471673")
-    st.write("Black Gloves: Image by New Africa / #393876863")
-    st.write("Beige Beanie: Image by ange1011 / #558118657")
-    st.write("Grey Beanie: Image by Rawpixel.com / #929135580")
-    st.write("Dark Grey Beanie: Image by Touchr / #303141709")
+    st.markdown("---")
 
+    st.markdown("""
+    * **Dark Grey Scarf:** Image by Neo / *https://stock.adobe.com* (ID: #2149782903)
+    * **Grey Scarf:** Image by PNG Studio 99 / *https://stock.adobe.com* (ID: #2214430897)
+    * **White Scarf:** Image by volodyar / *https://stock.adobe.com* (ID: #137126673)
+    * **Grey Gloves:** Image by Pixel-Shot / *https://stock.adobe.com* (ID: #474453749)
+    * **Beige Gloves:** Image by Olzhas / *https://stock.adobe.com* (ID: #1752471673)
+    * **Black Gloves:** Image by New Africa / *https://stock.adobe.com* (ID: #393876863)
+    * **Beige Beanie:** Image by ange1011 / *https://stock.adobe.com* (ID: #558118657)
+    * **Grey Beanie:** Image by Rawpixel.com / *https://stock.adobe.com* (ID: #929135580)
+    * **Dark Grey Beanie:** Image by Touchr / *https://stock.adobe.com* (ID: #303141709)
+    """)
+
+    st.markdown("---")
+    
     if st.button("Back to Shop"):
         go_to("shop")
 
